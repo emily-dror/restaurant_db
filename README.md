@@ -3,6 +3,23 @@
 This project describes a delivery management application for a new
 restaurant called "Yummy".
 
+### Setting up env
+We recommend using a venv:
+```
+python3 -m venv venv
+source venv/bin/activate
+./venv/bin/pip3 install -r requirements.txt
+```
+
+### Running Tests
+
+```
+./venv/bin/python3 <test_name>
+```
+
+Use `deactivate` to leave the venv.
+
+## Description of the App
 Customers of the app will be able to place orders and rate dishes. Managers of the app will be
 able to add new dishes to the menu, update prices, and track the profits of the restaurant.
 Typically, the data access layer facilitates the interaction of other components of the system

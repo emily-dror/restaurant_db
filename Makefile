@@ -4,10 +4,6 @@
 ID1 := 324934082
 ID2 := 326757283
 
-.PHONY: setup-venv
-install-venv:
-	python3 -m venv venv
-
 .PHONY: zip
 zip:
 	cp src/Solution.py build/Solution.py
