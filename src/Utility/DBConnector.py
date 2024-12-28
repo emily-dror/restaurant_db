@@ -141,7 +141,7 @@ class DBConnector:
 
     # grant credentials
     @staticmethod
-    def __config(filename=os.path.join(os.path.join(os.getcwd(), "Utility"), 'database.ini'),
+    def __config(filename=os.path.join(os.path.join(os.getcwd(), "src", "Utility"), 'database.ini'),
                  section='postgresql'):
         # create a parser
         parser = ConfigParser()

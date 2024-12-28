@@ -1,8 +1,18 @@
+import os
+import sys
 import unittest
+
+SRC_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, "src")
+sys.path.append(os.path.abspath(SRC_DIR))
+
 import Solution as Solution
 from Utility.ReturnValue import ReturnValue
-from Tests.AbstractTest import AbstractTest
 from Business.Customer import Customer, BadCustomer
+
+TEST_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(TEST_DIR)
+
+from AbstractTest import AbstractTest
 
 '''
     Simple test, create one of your own
