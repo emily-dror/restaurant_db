@@ -18,6 +18,7 @@ class Order:
 
     def get_datetime(self) -> Optional[datetime]:
         return self.__datetime
+        #TODO:  correctly handle microseconds
 
     def set_datetime(self, date: datetime) -> None:
         self.__datetime = date

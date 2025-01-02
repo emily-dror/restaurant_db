@@ -257,7 +257,7 @@ def delete_order(order_id: int) -> ReturnValue:
         ).format(id=sql.Literal(order_id))
         rows_effected, _ = conn.execute(query)
     except Exception as e:
-        retval = ReturnValue.ERROR
+        return ReturnValue.ERROR
     finally:
         conn.close()
         if rows_effected == 0:
@@ -329,7 +329,7 @@ def update_dish_price(dish_id: int, price: float) -> ReturnValue:
         rows_effected, _ = conn.execute(query)
     except Exception as e:
         # TODO: BAD_PARAMS if the price is illegal
-        retval = ReturnValue.ERROR
+        return ReturnValue.ERROR
     finally:
         conn.close()
         if rows_effected == 0:
@@ -351,7 +351,7 @@ def update_dish_active_status(dish_id: int, is_active: bool) -> ReturnValue:
         rows_effected, _ = conn.execute(query)
     except Exception as e:
         # TODO: BAD_PARAMS if the price is illegal
-        retval = ReturnValue.ERROR
+        return ReturnValue.ERROR
     finally:
         conn.close()
         if rows_effected == 0:
