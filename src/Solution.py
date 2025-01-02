@@ -19,7 +19,6 @@ def create_tables() -> None:
     conn = None
     try:
         conn = Connector.DBConnector()
-        # TODO - I'm pretty sure is_active in Dishes should not be UNIQUE - Tomer
         create_query = """
             CREATE TABLE Customers (
                 cust_id    INTEGER   PRIMARY KEY CHECK (cust_id > 0),
@@ -39,19 +38,19 @@ def create_tables() -> None:
                 dish_id    INTEGER  PRIMARY KEY CHECK (dish_id > 0),
                 name       TEXT     NOT NULL CHECK (LENGTH(name) >= 4),
                 price      DECIMAL  NOT NULL CHECK (price > 0),
-                is_active  BOOLEAN  NOT NULL UNIQUE
+                is_active  BOOLEAN  NOT NULL 
             );
             
             CREATE VIEW ActiveDishes AS
                 SELECT dish_id, price FROM Dishes WHERE is_active = 1;
             
             CREATE TABLE OrderedBy (
-                order_id        INTEGER    PRIMARY KEY REFERENCES Orders(order_id),
+                order_id        INTEGER    PRIMARY KEY REFERENCES Orders(order_id) ON DELETE CASCADE,
                 cust_id         INTEGER    REFERENCES Customers(cust_id) ON DELETE CASCADE
             );
             
             CREATE TABLE OrderContains (
-                order_id    INTEGER     REFERENCES Orders(order_id),
+                order_id    INTEGER     REFERENCES Orders(order_id) ON DELETE CASCADE,
                 dish_id     INTEGER     REFERENCES ActiveDishes(dish_id),
                 amount      INTEGER     NOT NULL CHECK (amount>=0),
                 price       DECIMAL     NOT NULL,
@@ -61,7 +60,7 @@ def create_tables() -> None:
             CREATE TABLE Ratings (
                 cust_id    INTEGER   REFERENCES Customers(cust_id) ON DELETE CASCADE,
                 dish_id    INTEGER   REFERENCES Dishes(dish_id),
-                rating     INTEGER   CHECK (rating >= 1 AND rating <= 5)
+                rating     INTEGER   NOT NULL CHECK (rating >= 1 AND rating <= 5)
                 UNIQUE (cust_id, dish_id)
             );
         """
@@ -127,16 +126,14 @@ def drop_tables() -> None:
     conn = None
     try:
         conn = Connector.DBConnector()
-        # TODO - In piazza the staff said it isn't necessary to use IF EXISTS.
-        # TODO - Also, why CASCADE here?
         drop_query = """
-            DROP VIEW ActiveDishes;
+            DROP VIEW  ActiveDishes;
             DROP TABLE OrderedBy;
             DROP TABLE OrderContains;
             DROP TABLE Ratings;
-            DROP TABLE IF EXISTS Customers CASCADE;
-            DROP TABLE IF EXISTS Orders CASCADE;
-            DROP TABLE IF EXISTS Dishes CASCADE;
+            DROP TABLE Customers;
+            DROP TABLE Orders;
+            DROP TABLE Dishes;
         """
         conn.execute(drop_query)
     except DatabaseException.ConnectionInvalid as e:
